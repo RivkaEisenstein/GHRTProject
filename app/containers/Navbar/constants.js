@@ -4,4 +4,5 @@
  *
  */
 
-export const DEFAULT_ACTION = 'app/Navbar/DEFAULT_ACTION';
+export const UPDATE_DATE = 'boilerplate/Navbar/UPDATE_DATE';
+export const UPDATE_KIND = 'boilerplate/Navbar/UPDATE_KIND';

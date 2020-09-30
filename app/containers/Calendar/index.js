@@ -39,7 +39,7 @@ export class Calendar extends Component {
       <div>
         <FullCalendar
           // events={events}
-          height={450}
+          height={600}
           width={600}
        
           plugins={[dayGridPlugin]}

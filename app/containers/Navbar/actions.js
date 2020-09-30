@@ -4,10 +4,20 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { UPDATE_DATE } from './constants';
 
-export function defaultAction() {
+export function Update(ob) {
   return {
-    type: DEFAULT_ACTION,
+    type: UPDATE_DATE,
+    ob
+  };
+}
+
+import { UPDATE_KIND } from './constants';
+
+export function Updatek(ob) {
+  return {
+    type: UPDATE_KIND,
+    ob
   };
 }

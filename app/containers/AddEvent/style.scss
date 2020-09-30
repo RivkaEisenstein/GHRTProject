@@ -1,11 +1,25 @@
-formControl {
-    margin: theme.spacing(1),
-    min-width= 12%,
-  }
-  selectEmpty {
-    margin-top: theme.spacing(2),
-  }
-  .formm
+
+  .DivForms
   {
-      padding-left: 45%;
+    display: block;
+  }
+ 
+  .formAddEvent
+  {
+    padding-left: 25%;
+   
+  }
+  .formbirthday
+  {
+    width:450px;
+    margin:8px;
+  }
+  .addevents
+  {
+    display: flex;
+  }
+  .addEventsH1
+  {
+    color:red;
+    padding-left: 40%;
   }

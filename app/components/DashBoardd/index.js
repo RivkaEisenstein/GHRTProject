@@ -10,6 +10,7 @@ import React, { memo } from 'react';
 import { XAxis, YAxis, Tooltip,  ComposedChart, CartesianGrid, Legend,Bar, Area,Line} from 'recharts';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
+import { getDashboardEvents } from '../../../app/containers/App/selectors';
 
 function DashBoardd() {
   const data = [

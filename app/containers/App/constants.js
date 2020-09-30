@@ -11,7 +11,6 @@
 
 export const MINUS_EVENT = 'boilerplate/App/MINUS_EVENT';
 export const LOAD_EVENTS = 'boilerplate/App/LOAD_EVENTS';
-export const UPDATE_DATE = 'boilerplate/App/UPDATE_DATE';
-export const UPDATE_KIND = 'boilerplate/App/UPDATE_KIND';
+
 
 

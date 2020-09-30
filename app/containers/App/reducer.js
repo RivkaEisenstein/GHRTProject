@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { UPDATE_DATE, UPDATE_KIND } from './constants';
+import { UPDATE_DATE, UPDATE_KIND } from '../Navbar/constants';
 import { ADD_EVENT } from '../AddEvent/constants';
 import { UPDATE_EDITEVENT } from '../Calendar/constants';
 import { EDIT_EVENT } from '../EditEvent/constants';
@@ -10,20 +10,41 @@ export const initialState = {
   date: "null",
   kind: 'allkinds',
   eventedit: { name: 'hello' },
-  id:1
+  id:3,
+  dashboardevents:[
+    {name:"wedding",count:0},
+    {name:"birthday",count:0},
+    {name:"meeting",count:0}
+  ]
 };
 
-/* eslint-disable default-case, no-param-reassign */
+
 const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case ADD_EVENT:
         draft.id= draft.id + 1;
         draft.events.push(action.ob);
+        const i =draft.dashboardevents.findIndex((eventd)=>
+        eventd.name==action.ob.kind
+       );
+       if(draft.date==="null" || draft.date === action.ob.date)
+       {
+        draft.dashboardevents[i].count= draft.dashboardevents[i].count+1;
+       }
+       
         break;
 
       case UPDATE_DATE:
         draft.date = action.ob;
+        const length = draft.dashboardevents.length;
+        for (let index = 0; index < length; index++) {
+          const countEvents = draft.events.filter((event) => 
+           event.date === action.ob && event.kind === draft.dashboardevents[index].name).length;
+          if(countEvents===undefined)
+          draft.dashboardevents[index].count=0;
+         else  draft.dashboardevents[index].count=countEvents;
+        };
         break;
 
       case UPDATE_KIND:
@@ -35,15 +56,14 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case EDIT_EVENT:
-        return {
-          ...state,
-          events: draft.events.map(todo => todo.id === action.ob.id ?
-            { ...todo, todo: action.ob } :
-            todo
-          )
-        };
-
-
+       const index=draft.events.findIndex((event)=>
+        event.id==action.ob.id
+       );
+       console.log(draft.events[index]);
+       draft.events[index].title=action.ob.title;
+       draft.events[index].time=action.ob.time;
+       draft.events[index].date=action.ob.date;
+       break;
 
     }
   });

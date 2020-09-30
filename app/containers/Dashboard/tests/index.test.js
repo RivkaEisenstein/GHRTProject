@@ -8,20 +8,15 @@
 
 import React from 'react';
 import { render } from 'react-testing-library';
-import { IntlProvider } from 'react-intl';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import Dashboard from '../index';
-import { DEFAULT_LOCALE } from '../../../i18n';
+import { Dashboard } from '../index';
 
 describe('<Dashboard />', () => {
   it('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    render(
-      <IntlProvider locale={DEFAULT_LOCALE}>
-        <Dashboard />
-      </IntlProvider>,
-    );
+    const dispatch = jest.fn();
+    render(<Dashboard dispatch={dispatch} />);
     expect(spy).not.toHaveBeenCalled();
   });
 
@@ -37,11 +32,7 @@ describe('<Dashboard />', () => {
   it.skip('Should render and match the snapshot', () => {
     const {
       container: { firstChild },
-    } = render(
-      <IntlProvider locale={DEFAULT_LOCALE}>
-        <Dashboard />
-      </IntlProvider>,
-    );
+    } = render(<Dashboard />);
     expect(firstChild).toMatchSnapshot();
   });
 });
