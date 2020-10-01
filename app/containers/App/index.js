@@ -8,29 +8,18 @@
  */
 
 import { compose } from 'redux';
-import { Switch, Route } from 'react-router-dom';
-import Calendar from 'react-calendar';
-import HomePage from 'containers/HomePage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import FullCalendar from "@fullcalendar/react";
+
 
 import React, { memo, Component } from 'react';
 import PropTypes from 'prop-types';
-import AddEvent from '../AddEvent';
-import { Link } from 'react-router-dom'
-import Alert from '../../components/Alert';
-import Dashboardd from '../../components/Dashboardd';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+
 import { connect } from 'react-redux';
-import { useEffect } from 'react';
-import { getFilterEvents } from './selectors';
 import { createStructuredSelector } from 'reselect';
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import 'style.scss';
+import './style.scss';
 import { Helmet } from 'react-helmet';
 import  AppNavbar  from '../Navbar';
-import Button from 'react-bootstrap/Button';
+import { getFilterEvents } from './selectors';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -41,19 +30,13 @@ export class App extends Component {
     super(props);
     this.date = new Date();
     this.kind = '';
-    console.log(props.events);
     this.options = [
       { value: 'wedding', label: 'wedding' },
       { value: 'birthday', label: 'birthday' },
       { value: 'meeting', label: 'meeting' },
     ]
-    this.state = {
-      selectedOption: '',
-
-    };
+   
   }
-
-
 
 
   render() {
@@ -77,17 +60,10 @@ const mapStateToProps = createStructuredSelector({
   events: getFilterEvents()
 
 });
-function mapDispatchToProps(dispatch) {
-  return {
-    onUpdate: (date) => { dispatch(Update(date)) },
-    onUpdatek: (kind) => { dispatch(Updatek(kind)) },
-  }
 
-}
 
 const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 );
 
 

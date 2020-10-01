@@ -1,25 +1,27 @@
-
-  .DivForms
+.add_event_container
+{
+  .div_forms
   {
     display: block;
   }
  
-  .formAddEvent
+  .form_add_event
   {
     padding-left: 25%;
    
   }
-  .formbirthday
+  .form_birthday
   {
     width:450px;
     margin:8px;
   }
-  .addevents
+  .add_events
   {
     display: flex;
   }
-  .addEventsH1
+  .add_event_h1
   {
     color:red;
     padding-left: 40%;
   }
+}

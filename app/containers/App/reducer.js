@@ -23,27 +23,27 @@ const appReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
       case ADD_EVENT:
-        draft.id= draft.id + 1;
+        draft.id+= 1;
         draft.events.push(action.ob);
         const i =draft.dashboardevents.findIndex((eventd)=>
-        eventd.name==action.ob.kind
-       );
-       if(draft.date==="null" || draft.date === action.ob.date)
-       {
-        draft.dashboardevents[i].count= draft.dashboardevents[i].count+1;
-       }
+          eventd.name===action.ob.kind
+        );
+        if(draft.date==="null" || draft.date === action.ob.date)
+        {
+          draft.dashboardevents[i].count+=1;
+        }
        
         break;
 
       case UPDATE_DATE:
         draft.date = action.ob;
-        const length = draft.dashboardevents.length;
-        for (let index = 0; index < length; index++) {
+        const {length} = draft.dashboardevents;
+        for (let index = 0; index < length;index +=1) {
           const countEvents = draft.events.filter((event) => 
-           event.date === action.ob && event.kind === draft.dashboardevents[index].name).length;
+            event.date === action.ob && event.kind === draft.dashboardevents[index].name).length;
           if(countEvents===undefined)
-          draft.dashboardevents[index].count=0;
-         else  draft.dashboardevents[index].count=countEvents;
+            draft.dashboardevents[index].count=0;
+          else  draft.dashboardevents[index].count=countEvents;
         };
         break;
 
@@ -56,14 +56,14 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case EDIT_EVENT:
-       const index=draft.events.findIndex((event)=>
-        event.id==action.ob.id
-       );
-       console.log(draft.events[index]);
-       draft.events[index].title=action.ob.title;
-       draft.events[index].time=action.ob.time;
-       draft.events[index].date=action.ob.date;
-       break;
+        const index=draft.events.findIndex((event)=>
+          event.id===action.ob.id
+        );
+        draft.events[index].title=action.ob.title;
+        draft.events[index].time=action.ob.time;
+        draft.events[index].date=action.ob.date;
+        break;
+      default: break;
 
     }
   });
