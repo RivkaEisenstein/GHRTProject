@@ -94,7 +94,11 @@ export class AddEvent extends Component {
             <br></br><br></br><br></br>
             <input type="button" value="SAVE DETAILS" onClick={this.saveContact} />
           </form>
-          <button onClick={() => { this.props.onSubmit(this.state.newEvent), history.push('/FullCalendar'); }}>ADD TO EVENTS</button>
+          <button
+            onClick={() => {
+              this.props.onSubmit(this.state.newEvent);
+              history.push('/FullCalendar')
+            }}>ADD TO EVENTS</button>
           <Switch>
 
             <Route exact path="/FullCalendar" component={Calendar} />

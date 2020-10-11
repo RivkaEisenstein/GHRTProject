@@ -37,14 +37,14 @@ const appReducer = (state = initialState, action) =>
 
       case UPDATE_DATE:
         draft.date = action.ob;
-        const {length} = draft.dashboardevents;
-        for (let index = 0; index < length;index +=1) {
-          const countEvents = draft.events.filter((event) => 
-            event.date === action.ob && event.kind === draft.dashboardevents[index].name).length;
-          if(countEvents===undefined)
-            draft.dashboardevents[index].count=0;
-          else  draft.dashboardevents[index].count=countEvents;
-        };
+        // const {length} = draft.dashboardevents;
+        // for (let index = 0; index < length;index +=1) {
+        //   const countEvents = draft.events.filter((event) => 
+        //     event.date === action.ob && event.kind === draft.dashboardevents[index].name).length;
+        //   if(countEvents===undefined)
+        //     draft.dashboardevents[index].count=0;
+        //   else  draft.dashboardevents[index].count=countEvents;
+        // };
         break;
 
       case UPDATE_KIND:

@@ -12,25 +12,29 @@ import { compose } from 'redux';
 import { XAxis, YAxis, Tooltip, ComposedChart, CartesianGrid, Legend, Bar, Area, Line } from 'recharts';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
+import { FormattedMessage } from 'react-intl';
 import reducer from './reducer';
 import saga from './saga';
 import { getFilterDashboardEvents } from '../App/selectors';
 import './style.scss';
+import messages from './messages';
 
 export function Dashboard(props) {
   useInjectReducer({ key: 'dashboard', reducer });
   useInjectSaga({ key: 'dashboard', saga });
-  const width=900;
-  const height=500;
-  const colorArea="#f5f5f5";
-  const fillArea="#8884d8";
-  const strokeArea="#8884d8";
-  const fillBar="#413ea0";
-  const strokeLine="#ff7300";
-  const barSize=20;
+  const width = 900;
+  const height = 500;
+  const colorArea = "#f5f5f5";
+  const fillArea = "#8884d8";
+  const strokeArea = "#8884d8";
+  const fillBar = "#413ea0";
+  const strokeLine = "#ff7300";
+  const barSize = 20;
   return (
     <div className="dashbord-container">
-
+      <span className="format_message">
+        <FormattedMessage {...messages.header} className="format_message" />
+      </span>
       <br></br>
       <br></br>
       <br></br>

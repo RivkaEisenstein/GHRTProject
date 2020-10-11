@@ -35,11 +35,10 @@ import Calendar from '../Calendar';
 import saga from './saga';
 import reducer from './reducer';
 import Dashboard from '../Dashboard';
-
-
-
+import { Kinds } from './constants';
 
 export function AppNavbar(props) {
+ 
   useInjectReducer({ key: 'navbar', reducer });
   useInjectSaga({ key: 'navbar', saga });
   const [date, setDate] = React.useState(new Date());
@@ -62,9 +61,12 @@ export function AppNavbar(props) {
         </Navbar.Brand>
         <Form inline className="navbar_form_style">
           <input
-            type="date" value={date} onChange={(e) => { 
-              setDate(e.target.value),
-              props.onUpdate(e.target.value)}}></input>
+            type="date" 
+            value={date} 
+            onChange={(e) => { 
+              setDate(e.target.value);
+              props.onUpdate(e.target.value)}}
+          />
           
           <Button variant="danger">Clear Date   </Button>
           <Form.Control
@@ -73,10 +75,10 @@ export function AppNavbar(props) {
             onChange={(e)=>{props.onUpdatek(e.target.value)}}
             variant="danger"
           >
-            <option value="allkinds">All Kinds</option>
-            <option value="wedding"> Wedding </option>
-            <option value="meeting">Meeting</option>
-            <option value="birthday">Birthday</option>
+            { Kinds.map(kind => 
+              <option value={kind}> {kind} </option>
+            )}
+            
         
           </Form.Control>
         </Form>
