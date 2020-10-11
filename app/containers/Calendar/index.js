@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo  } from 'react';
+import React, { memo , useEffect  } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -16,12 +16,20 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 // import messages from './messages';
 import history from 'utils/history';
+import { useInjectSaga } from 'utils/injectSaga';
 import { getFilterEvents } from '../App/selectors';
 import { UpdateEdit} from './actions';
+import { loadEvents } from '../App/actions';
+import saga from '../App/saga';
 import './style.scss';
+// import 'fullcalendar/dist/fullcalendar.css';
 
 
 export function Calendar (props) {
+  useInjectSaga({ key: 'Calendar', saga });
+  useEffect(() => {
+    if (!props.events) props.onLoadEvents();
+  }, []);
   const height=600;
   const width=600;
 
@@ -35,7 +43,7 @@ export function Calendar (props) {
         initialView="dayGridMonth"
         events={props.events}
         eventClick={
-          (arg)=>{props.onUpdateEdit( arg.event ), history.push('/EditEvent');}
+          (arg)=>{props.onUpdateEdit( {...arg.event, ...arg.event.extendedProps} ); history.push('/EditEvent');}
         }/>
   
 
@@ -49,8 +57,10 @@ export function Calendar (props) {
 
 Calendar.propTypes = {
   
-  events:PropTypes.array,
-  onUpdateEdit:PropTypes.func
+  events: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
+  onUpdateEdit:PropTypes.func,
+  error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
+  onLoadEvents: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -60,7 +70,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdateEdit: (object) => { dispatch(UpdateEdit(object)) }
+    onUpdateEdit: (object) => { dispatch(UpdateEdit(object)) },
+    onLoadEvents: () => dispatch(loadEvents()),
   }
 }
 

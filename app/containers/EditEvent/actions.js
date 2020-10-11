@@ -6,11 +6,11 @@
 
 import { EDIT_EVENT } from './constants';
 
-export function Edit(ob) {
-  console.log(ob);
+export function Edit(event) {
+  console.log(event);
   return {
    
     type: EDIT_EVENT,
-    ob
+    event
   };
 }

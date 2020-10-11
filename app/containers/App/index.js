@@ -11,6 +11,7 @@ import { compose } from 'redux';
 
 
 import React, { memo, Component } from 'react';
+
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';

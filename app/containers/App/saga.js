@@ -3,47 +3,46 @@ import { call, put, takeLatest, takeEvery } from 'redux-saga/effects';
 import request from 'utils/request';
 
 import {
-  LOAD_ORDER,
-  GET_ORDER,
-  ADD_ORDER,
-  DELETE_ORDER,
-  UPDATE_ORDER,
+  LAOD_EVENT,
+  GET_EVENT,
+  DELETE_EVENT
 } from './constants';
 
+import { ADD_EVENT } from '../AddEvent/constants';
+import { EDIT_EVENT } from '../EditEvent/constants';
 import {
-  ordersLoaded,
-  orderLoadingError,
-  getOrderSuccess,
-  getOrderError,
-  addOrderSuccess,
-  addOrderError,
-  updateOrderError,
-  updateOrderSuccess,
-  deleteOrderError,
-  deleteOrderSuccess,
+  eventsLoaded,
+  eventLoadingError,
+  getEventSuccess,
+  getEventError,
+  addEventSuccess,
+  addEventError,
+  updateEventError,
+  updateEventSuccess,
+  deleteEventError,
+  deleteEventSuccess,
 } from './actions';
+
 
 const baseUrl = '/api';
 
 export function* getList() {
   const requestURL = `${baseUrl}/list`;
-
   try {
     const list = yield call(request, requestURL);
-    yield put(ordersLoaded(list));
+    yield put(eventsLoaded(list));
   } catch (err) {
-    yield put(orderLoadingError(err));
+    yield put(eventLoadingError(err));
   }
 }
 
 export function* get(action) {
   const requestURL = `${baseUrl}/get/${action.orderId}`;
-
   try {
     const order = yield call(request, requestURL);
-    yield put(getOrderSuccess(order));
+    yield put(getEventSuccess(order));
   } catch (err) {
-    yield put(getOrderError(err));
+    yield put(getEventError(err));
   }
 }
 
@@ -54,14 +53,14 @@ export function* update(action) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(action.order),
+    body: JSON.stringify(action.event),
   };
 
   try {
     const list = yield call(request, requestURL, options);
-    yield put(updateOrderSuccess(action.order, list));
+    yield put(updateEventSuccess(action.event, list));
   } catch (err) {
-    yield put(updateOrderError(err));
+    yield put(updateEventError(err));
   }
 }
 
@@ -72,14 +71,14 @@ export function* add(action) {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(action.order),
+    body: JSON.stringify(action.event),
   };
 
   try {
     const list = yield call(request, requestURL, options);
-    yield put(addOrderSuccess(action.order, list));
+    yield put(addEventSuccess(action.event, list));
   } catch (err) {
-    yield put(addOrderError(err));
+    yield put(addEventError(err));
   }
 }
 
@@ -94,16 +93,16 @@ export function* remove(action) {
 
   try {
     const list = yield call(request, requestURL, options);
-    yield put(deleteOrderSuccess(list));
+    yield put(deleteEventSuccess(list));
   } catch (err) {
-    yield put(deleteOrderError(err));
+    yield put(deleteEventError(err));
   }
 }
 
 export default function* loadData() {
-  yield takeLatest(LOAD_ORDER, getList);
-  yield takeEvery(GET_ORDER, get);
-  yield takeEvery(UPDATE_ORDER, update);
-  yield takeEvery(DELETE_ORDER, remove);
-  yield takeEvery(ADD_ORDER, add);
+  yield takeLatest(LAOD_EVENT, getList);
+  yield takeEvery(GET_EVENT, get);
+  yield takeEvery(EDIT_EVENT, update);
+  yield takeEvery(DELETE_EVENT, remove);
+  yield takeEvery(ADD_EVENT, add);
 }

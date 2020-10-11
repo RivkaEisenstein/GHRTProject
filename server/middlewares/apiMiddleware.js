@@ -23,7 +23,7 @@ router.get('/list', (req, res) => {
     fs.readFile(jsonPath, 'utf8', (err, data) => {
       res.end(data);
     });
-  }, 600);
+  }, 10);
 });
 
 router.get('/get/:id', (req, res) => {

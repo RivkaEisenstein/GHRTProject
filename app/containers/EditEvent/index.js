@@ -36,14 +36,14 @@ export function EditEvent(props) {
     <div>
       <div className="form_edit">
         <Form width={300} height={500}>
-          <p>---Edit {props.eventedit.title} Event---</p>
+          <p>---Edit {props.eventedit.title} Event--- </p>
           <Form.Group controlId="exampleForm.ControlInput1" >
             <Form.Label>Title Event</Form.Label>
             <Form.Control type="string" placeholder={props.eventedit.title} value={title} onChange={(e) => setTitle(e.target.value)} />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Date Event</Form.Label>
-            <Form.Control type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+            <Form.Control type="date" value="2020-01-20" onChange={(e) => setDate(e.target.value)} />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Time Event</Form.Label>

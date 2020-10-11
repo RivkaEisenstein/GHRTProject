@@ -6,4 +6,4 @@
 
 export const UPDATE_DATE = 'boilerplate/Navbar/UPDATE_DATE';
 export const UPDATE_KIND = 'boilerplate/Navbar/UPDATE_KIND';
-export const Kinds =['wedding', 'meeting','allkinds','birthday'];
+export const Kinds =['allkinds', 'meeting','weeding','birthday'];
