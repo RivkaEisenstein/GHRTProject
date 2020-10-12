@@ -41,6 +41,7 @@ const appReducer = (state = initialState, action) =>
     switch (action.type) {
       case ADD_EVENT_SUCCESS:
         draft.id += 1;
+        console.log(action.events);
         draft.events = action.events;
         const i = draft.dashboardevents.findIndex((eventd) =>
           eventd.name === action.event.kind
@@ -53,14 +54,6 @@ const appReducer = (state = initialState, action) =>
 
       case UPDATE_DATE:
         draft.date = action.ob;
-        // const {length} = draft.dashboardevents;
-        // for (let index = 0; index < length;index +=1) {
-        //   const countEvents = draft.events.filter((event) => 
-        //     event.date === action.ob && event.kind === draft.dashboardevents[index].name).length;
-        //   if(countEvents===undefined)
-        //     draft.dashboardevents[index].count=0;
-        //   else  draft.dashboardevents[index].count=countEvents;
-        // };
         break;
 
       case UPDATE_KIND:
@@ -72,12 +65,7 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case UPDATE_EVENT_SUCCESS:
-        const index = draft.events.findIndex((event) =>
-          event.id === action.event.id
-        );
-        draft.events[index].title = action.event.title;
-        draft.events[index].time = action.event.time;
-        draft.events[index].date = action.event.date;
+        draft.events = action.events;
         break;
       case LAOD_EVENT:
         draft.loading = true;
@@ -86,7 +74,10 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case LOAD_EVENT_SUCCESS:
+        
+        console.log(action.events);
         draft.events = action.events;
+        console.log( "draft events" ,draft.events);
         draft.id=action.events.length;
         draft.loading = false;
         break;

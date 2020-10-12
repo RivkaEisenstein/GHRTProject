@@ -37,6 +37,7 @@ import reducer from './reducer';
 import Dashboard from '../Dashboard';
 import { Kinds } from './constants';
 
+
 export function AppNavbar(props) {
  
   useInjectReducer({ key: 'navbar', reducer });
@@ -98,7 +99,7 @@ export function AppNavbar(props) {
       </Breadcrumbs >
       <Switch>
 
-
+    
         <Route exact path="/Dashboard" component={Dashboard} />
         <Route exact path="/FullCalendar" component={Calendar} />
         <Route path="/AddEvent" component={AddEvent} />

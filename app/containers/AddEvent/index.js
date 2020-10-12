@@ -10,17 +10,13 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
-
-import FormControl from '@material-ui/core/FormControl';
-
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import './style.scss';
 import history from 'utils/history';
 import { Switch, Route } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card'
 import Calendar from '../Calendar';
 import { getId } from '../App/selectors';
 import { Submit } from './actions';
@@ -30,7 +26,11 @@ export class AddEvent extends Component {
     super(props);
     this.state =
     {
-      newEvent: { title: "yyyy", date: new Date(), time: '', kind: '', id: '' }
+      newEvent: { title: "yyyy", date: new Date(), time: '', kind: '', id: '' },
+      showWedding: false,
+      showMeeting: false,
+      showBirthday: false,
+
     }
     this.FirstRef = React.createRef();
     this.LastRef = React.createRef();
@@ -53,14 +53,36 @@ export class AddEvent extends Component {
     this.state.newEvent.kind = event.target.value;
   };
 
+  showFormWeeding = () => {
+    this.setState({ showWedding: true });
+    this.setState({ showBirthday: false });
+    this.setState({ showMeeting: false });
 
+
+  }
+
+  showFormBirthday = () => {
+    this.setState({ showWedding: false });
+    this.setState({ showBirthday: true });
+    this.setState({ showMeeting: false });
+  }
+
+  showFormMeeting = () => {
+    this.setState({ showWedding: false });
+    this.setState({ showBirthday: false });
+    this.setState({ showMeeting: true });
+  }
 
   saveContact() {
+
     this.state.newEvent.date = this.DatetRef.current.value;
     this.state.newEvent.title = this.FirstRef.current.value;
-    this.state.newEvent.numberp = this.LastRef.current.value;
     this.state.newEvent.time = this.TimeRef.current.value;
     this.state.newEvent.id = this.props.id;
+    this.state.newEvent.kind = "weeding";
+
+
+    console.log(this.state.newEvent);
   }
 
 
@@ -68,63 +90,46 @@ export class AddEvent extends Component {
   render() {
     return (
       <div className="add_event_container">
-        <div className="form_add_event">
-          <form className="formm">
-            <br></br>
-            <input type="text" placeholder="Enter title of event" name="title" ref={this.FirstRef} /><br></br>
-            <input type="date" placeholder="Enter id" name="id" ref={this.DatetRef} /><br></br><br></br>
-            <input type="time" placeholder="Enter time" name="time" ref={this.TimeRef} /><br></br><br></br>
 
+        <Switch>
 
-            <br></br>
-            <FormControl >
-              {/* <InputLabel id="demo-simple-select-label">Kind Of Event</InputLabel> */}
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={this.age}
-                onChange={this.handleChange}
-              >
-                <MenuItem value="wedding">Wedding</MenuItem>
-                <MenuItem value="birthday">Birthday</MenuItem>
-                <MenuItem value="meeting">Meeting</MenuItem>
-              </Select>
-            </FormControl>
+          <Route exact path="/FullCalendar" component={Calendar} />
+
+        </Switch>
+        {/* </div> */}
+        <h3 className="add_event_h1">ADD EVENTS</h3>
+        <Card className="div_buttons">
+          <Card.Header className="card_header">KIND OF EVENTS</Card.Header>
+          <Card.Body>
+            <Card.Title>click to choose kind</Card.Title>
+            <Card.Text>
+            </Card.Text>
             <br></br><br></br><br></br>
-            <input type="button" value="SAVE DETAILS" onClick={this.saveContact} />
-          </form>
-          <div>
-            <button
-              onClick={
-                () => { this.props.onSubmit(this.state.newEvent); history.push('/FullCalendar') }
-              }>ADD TO EVENTS </button>
-          </div>
-          <Switch>
-
-            <Route exact path="/FullCalendar" component={Calendar} />
-
-          </Switch>
-        </div>
-        <h1 className="add_event_h1">ADD EVENTS</h1>
+            <Button variant="outline-dark" size="lg" onClick={this.showFormWeeding} >Weeding</Button><br></br><br></br><br></br>
+            <Button variant="outline-dark" size="lg" onClick={this.showFormMeeting}>Meeting</Button><br></br><br></br><br></br>
+            <Button variant="outline-dark" size="lg" onClick={this.showFormBirthday}>Birthday</Button><br></br><br></br>
+          </Card.Body>
+        </Card>
+     
         <div className="add_events">
 
           <br></br>
           <br></br>
           <br></br>
-          <div className="form_birthday">
+          {this.state.showBirthday && <div className="form_birthday">
             <Form width={200} height={300}>
               <h3>Add Birthday Event</h3>
               <Form.Group controlId="exampleForm.ControlInput1" >
                 <Form.Label>Title Event</Form.Label>
-                <Form.Control type="string" placeholder="birthday for eli age 5"  ref={this.FirstRef}/>
+                <Form.Control type="string" placeholder="birthday for eli age 5" ref={this.FirstRef} name="title" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput2">
                 <Form.Label>Date Event</Form.Label>
-                <Form.Control type="date" ref={this.DatetRef} />
+                <Form.Control type="date" ref={this.DatetRef} name="date" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput2">
                 <Form.Label>Time Event</Form.Label>
-                <Form.Control type="time" ref={this.TimeRef}/>
+                <Form.Control type="time" ref={this.TimeRef} name="time" />
               </Form.Group>
               <Button
                 variant="primary"
@@ -137,49 +142,65 @@ export class AddEvent extends Component {
                 }
               >ADD TO EVENTS</Button>{' '}
             </Form>
-          </div>
-          <div className="form_birthday">
+          </div>}
+
+          {this.state.showWedding && <div className="form_birthday">
             <Form width={200} height={300}>
               <h3>Add Wedding Event</h3>
               <Form.Group controlId="exampleForm.ControlInput1" >
                 <Form.Label>Title Event</Form.Label>
-                <Form.Control type="string" placeholder="wedding for moti in armonot fridman" />
+                <Form.Control type="string" placeholder="wedding for moti in armonot fridman" ref={this.FirstRef} name="title" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput2">
                 <Form.Label>Date Event</Form.Label>
-                <Form.Control type="date" />
+                <Form.Control type="date" ref={this.DatetRef} name="date" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput2">
                 <Form.Label>Time Event</Form.Label>
-                <Form.Control type="time" />
+                <Form.Control type="time" ref={this.TimeRef} name="time" />
               </Form.Group>
 
               <Button
                 variant="primary"
+                onClick={this.saveContact}
+              >SAVE CHANGES</Button>{' '}
+              <Button
+                variant="primary"
+                onClick={
+                  () => { this.props.onSubmit(this.state.newEvent); history.push('/FullCalendar') }
+                }
               >ADD TO EVENTS</Button>{' '}
             </Form>
-          </div>
-          <div className="form_birthday">
+          </div>}
+
+          {this.state.showMeeting && <div className="form_birthday">
             <Form width={200} height={300}>
               <h3>Add Meeting Event</h3>
               <Form.Group controlId="exampleForm.ControlInput1" >
                 <Form.Label>Title Event</Form.Label>
-                <Form.Control type="string" placeholder="meeting in konkord bnei brak" />
+                <Form.Control type="string" placeholder="meeting in konkord bnei brak" ref={this.FirstRef} name="title" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput2">
                 <Form.Label>Date Event</Form.Label>
-                <Form.Control type="date" />
+                <Form.Control type="date" ref={this.DatetRef} name="date" />
               </Form.Group>
               <Form.Group controlId="exampleForm.ControlInput2">
                 <Form.Label>Time Event</Form.Label>
-                <Form.Control type="time" />
+                <Form.Control type="time" ref={this.TimeRef} name="time" />
               </Form.Group>
 
               <Button
                 variant="primary"
+                onClick={this.saveContact}
+              >SAVE CHANGES</Button>{' '}
+              <Button
+                variant="primary"
+                onClick={
+                  () => { this.props.onSubmit(this.state.newEvent); history.push('/FullCalendar') }
+                }
               >ADD TO EVENTS</Button>{' '}
             </Form>
-          </div>
+          </div>}
         </div>
       </div >
 

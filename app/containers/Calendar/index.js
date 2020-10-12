@@ -4,7 +4,7 @@
  *
  */
 
-import React, { memo , useEffect  } from 'react';
+import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -14,57 +14,68 @@ import FullCalendar from "@fullcalendar/react";
 
 
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+// import interactionPlugin from '@fullcalendar/interaction';
+
+
 // import messages from './messages';
 import history from 'utils/history';
 import { useInjectSaga } from 'utils/injectSaga';
 import { getFilterEvents } from '../App/selectors';
-import { UpdateEdit} from './actions';
+import { UpdateEdit } from './actions';
 import { loadEvents } from '../App/actions';
 import saga from '../App/saga';
 import './style.scss';
 // import 'fullcalendar/dist/fullcalendar.css';
 
 
-export function Calendar (props) {
+export function Calendar(props) {
   useInjectSaga({ key: 'Calendar', saga });
   useEffect(() => {
     if (!props.events) props.onLoadEvents();
   }, []);
-  const height=600;
-  const width=600;
+  const height = 600;
+  const width = 600;
 
 
   return (
-    <div>
+    <div className="calendar_container">
       <FullCalendar
         height={height}
         width={width}
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
+        plugins={[dayGridPlugin , timeGridPlugin ]}
         events={props.events}
+        initialView="dayGridMonth"
+        header={{
+          left: 'prev,next today',
+          center: 'title, myCustomButton',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+        }}
+   
         eventClick={
-          (arg)=>{props.onUpdateEdit( {...arg.event, ...arg.event.extendedProps} ); history.push('/EditEvent');}
-        }/>
-  
+          (arg) => { props.onUpdateEdit(arg.event); history.push('/EditEvent'); }
+        } />
+
 
     </div>
   );
-  
+
 }
 
 
 
 
 Calendar.propTypes = {
-  
+
   events: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
-  onUpdateEdit:PropTypes.func,
+  onUpdateEdit: PropTypes.func,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   onLoadEvents: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
-  events:getFilterEvents()
+  events: getFilterEvents()
 
 });
 

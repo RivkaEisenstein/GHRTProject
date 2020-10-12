@@ -35,8 +35,8 @@ export function EditEvent(props) {
   return (
     <div>
       <div className="form_edit">
-        <Form width={300} height={500}>
-          <p>---Edit {props.eventedit.title} Event--- </p>
+        <Form width={300} height={500} >
+          <h2 className="h2">---Edit {props.eventedit.title} Event--- </h2>
           <Form.Group controlId="exampleForm.ControlInput1" >
             <Form.Label>Title Event</Form.Label>
             <Form.Control type="string" placeholder={props.eventedit.title} value={title} onChange={(e) => setTitle(e.target.value)} />
