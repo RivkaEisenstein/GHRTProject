@@ -5,6 +5,6 @@ export const scope = 'boilerplate.containers.Dashboard';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'Dashboard Events! ',
+    defaultMessage: 'Dashboard Events ',
   },
 });

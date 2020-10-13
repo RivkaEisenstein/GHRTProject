@@ -15,7 +15,7 @@ import FullCalendar from "@fullcalendar/react";
 
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
+
 // import interactionPlugin from '@fullcalendar/interaction';
 
 
@@ -44,6 +44,8 @@ export function Calendar(props) {
       <FullCalendar
         height={height}
         width={width}
+        color="black"
+        eventTextColor="balck"
         plugins={[dayGridPlugin , timeGridPlugin ]}
         events={props.events}
         initialView="dayGridMonth"

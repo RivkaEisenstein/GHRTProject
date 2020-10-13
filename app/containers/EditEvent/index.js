@@ -25,7 +25,7 @@ import { Edit } from './actions';
 export function EditEvent(props) {
   useInjectReducer({ key: 'editEvent', reducer });
   const [title, setTitle] = React.useState("");
-  const [date, setDate] = React.useState("");
+  const [date, setDate] = React.useState(props.eventedit.date);
   const [time, setTime] = React.useState("");
 
 
@@ -35,27 +35,26 @@ export function EditEvent(props) {
   return (
     <div>
       <div className="form_edit">
-        <Form width={300} height={500} >
-          <h2 className="h2">---Edit {props.eventedit.title} Event--- </h2>
+        <Form width={300} height={500} margin-top={20}>
+          <h2 className="h2">---Edit  Event--- </h2>
           <Form.Group controlId="exampleForm.ControlInput1" >
             <Form.Label>Title Event</Form.Label>
             <Form.Control type="string" placeholder={props.eventedit.title} value={title} onChange={(e) => setTitle(e.target.value)} />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Date Event</Form.Label>
-            <Form.Control type="date" value="2020-01-20" onChange={(e) => setDate(e.target.value)} />
+            <Form.Control type="date" value={date} onChange={(e) => setDate(e.target.value)} />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Time Event</Form.Label>
             <Form.Control type="time" value={time} onChange={(e) => setTime(e.target.value)} />
           </Form.Group>
-
           <Button 
-            variant="primary" 
+            variant="outline-danger"
             onClick={() => {
               props.onEdit({ title, date, time, kind: props.eventedit.kind, id: props.eventedit.id })
             }
-            }>Save Changes</Button>{' '}
+            }>Save Changes </Button>{' '}
         </Form>
       </div >
     </div>

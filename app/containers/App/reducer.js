@@ -27,7 +27,7 @@ export const initialState = {
   eventedit: { name: 'hello' },
   id: 0,
   dashboardevents: [
-    { name: "wedding", count: 0 },
+    { name: "weeding", count: 0 },
     { name: "birthday", count: 0 },
     { name: "meeting", count: 0 }
   ],
@@ -41,12 +41,10 @@ const appReducer = (state = initialState, action) =>
     switch (action.type) {
       case ADD_EVENT_SUCCESS:
         draft.id += 1;
-        console.log(action.events);
         draft.events = action.events;
         const i = draft.dashboardevents.findIndex((eventd) =>
           eventd.name === action.event.kind
         );
-        alert(i);
         draft.dashboardevents[i].count += 1;
       
 

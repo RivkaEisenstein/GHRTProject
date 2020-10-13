@@ -16,10 +16,10 @@ import { Switch, Route } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card'
 import Calendar from '../Calendar';
 import { getId } from '../App/selectors';
 import { Submit } from './actions';
+import { Kinds } from '../Navbar/constants';
 
 export class AddEvent extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ export class AddEvent extends Component {
     this.state =
     {
       newEvent: { title: "yyyy", date: new Date(), time: '', kind: '', id: '' },
-      showWedding: false,
+      showWedding: true,
       showMeeting: false,
       showBirthday: false,
 
@@ -35,7 +35,10 @@ export class AddEvent extends Component {
     this.FirstRef = React.createRef();
     this.LastRef = React.createRef();
     this.IdtRef = React.createRef();
-    this.saveContact = this.saveContact.bind(this);
+    this.saveContact1 = this.saveContact1.bind(this);
+    this.saveContact2 = this.saveContact2.bind(this);
+    this.saveContact3 = this.saveContact3.bind(this);
+
     this.handleChange = this.handleChange.bind(this);
     this.DatetRef = React.createRef();
     this.TimeRef = React.createRef();
@@ -53,36 +56,51 @@ export class AddEvent extends Component {
     this.state.newEvent.kind = event.target.value;
   };
 
-  showFormWeeding = () => {
-    this.setState({ showWedding: true });
-    this.setState({ showBirthday: false });
-    this.setState({ showMeeting: false });
 
+  showForm = (kind) => {
+    if (kind === "birthday") {
+      this.setState({ showWedding: false });
+      this.setState({ showBirthday: true });
+      this.setState({ showMeeting: false });
+    }
+    if (kind === "weeding") {
+      this.setState({ showWedding: true });
+      this.setState({ showBirthday: false });
+      this.setState({ showMeeting: false });
+    }
+    if (kind === "meeting") {
+      this.setState({ showWedding: false });
+      this.setState({ showBirthday: false });
+      this.setState({ showMeeting: true });
+    }
 
   }
 
-  showFormBirthday = () => {
-    this.setState({ showWedding: false });
-    this.setState({ showBirthday: true });
-    this.setState({ showMeeting: false });
-  }
-
-  showFormMeeting = () => {
-    this.setState({ showWedding: false });
-    this.setState({ showBirthday: false });
-    this.setState({ showMeeting: true });
-  }
-
-  saveContact() {
+  saveContact1() {
 
     this.state.newEvent.date = this.DatetRef.current.value;
     this.state.newEvent.title = this.FirstRef.current.value;
     this.state.newEvent.time = this.TimeRef.current.value;
     this.state.newEvent.id = this.props.id;
     this.state.newEvent.kind = "weeding";
+  }
 
+  saveContact2() {
 
-    console.log(this.state.newEvent);
+    this.state.newEvent.date = this.DatetRef.current.value;
+    this.state.newEvent.title = this.FirstRef.current.value;
+    this.state.newEvent.time = this.TimeRef.current.value;
+    this.state.newEvent.id = this.props.id;
+    this.state.newEvent.kind = "meeting";
+  }
+
+  saveContact3() {
+
+    this.state.newEvent.date = this.DatetRef.current.value;
+    this.state.newEvent.title = this.FirstRef.current.value;
+    this.state.newEvent.time = this.TimeRef.current.value;
+    this.state.newEvent.id = this.props.id;
+    this.state.newEvent.kind = "birthday";
   }
 
 
@@ -97,20 +115,26 @@ export class AddEvent extends Component {
 
         </Switch>
         {/* </div> */}
-        <h3 className="add_event_h1">ADD EVENTS</h3>
-        <Card className="div_buttons">
-          <Card.Header className="card_header">KIND OF EVENTS</Card.Header>
-          <Card.Body>
-            <Card.Title>click to choose kind</Card.Title>
-            <Card.Text>
-            </Card.Text>
-            <br></br><br></br><br></br>
-            <Button variant="outline-dark" size="lg" onClick={this.showFormWeeding} >Weeding</Button><br></br><br></br><br></br>
-            <Button variant="outline-dark" size="lg" onClick={this.showFormMeeting}>Meeting</Button><br></br><br></br><br></br>
-            <Button variant="outline-dark" size="lg" onClick={this.showFormBirthday}>Birthday</Button><br></br><br></br>
-          </Card.Body>
-        </Card>
-     
+        <div className="add_event_h1">
+          <h3 >ADD EVENTS</h3>
+          <div className="div_kind">
+            <p className="p_kind">choose kind of event  {'   '}</p>{'     '}<p>  </p>
+
+            <Form.Control
+              className="form_control"
+              as="select"
+              custom
+              variant="danger"
+              onChange={(e) => { this.showForm(e.target.value) }}
+            >
+              <option value="weeding">Wedding</option>
+              <option value="meeting">Meeting</option>
+              <option value="birthday">Birthday</option>
+
+            </Form.Control>
+          </div>
+        </div>
+
         <div className="add_events">
 
           <br></br>
@@ -131,12 +155,13 @@ export class AddEvent extends Component {
                 <Form.Label>Time Event</Form.Label>
                 <Form.Control type="time" ref={this.TimeRef} name="time" />
               </Form.Group>
+
               <Button
-                variant="primary"
-                onClick={this.saveContact}
+                variant="outline-danger"
+                onClick={this.saveContact3}
               >SAVE CHANGES</Button>{' '}
               <Button
-                variant="primary"
+                variant="outline-danger"
                 onClick={
                   () => { this.props.onSubmit(this.state.newEvent); history.push('/FullCalendar') }
                 }
@@ -161,11 +186,11 @@ export class AddEvent extends Component {
               </Form.Group>
 
               <Button
-                variant="primary"
-                onClick={this.saveContact}
+                variant="outline-danger"
+                onClick={this.saveContact1}
               >SAVE CHANGES</Button>{' '}
               <Button
-                variant="primary"
+                variant="outline-danger"
                 onClick={
                   () => { this.props.onSubmit(this.state.newEvent); history.push('/FullCalendar') }
                 }
@@ -190,11 +215,11 @@ export class AddEvent extends Component {
               </Form.Group>
 
               <Button
-                variant="primary"
-                onClick={this.saveContact}
+                variant="outline-danger"
+                onClick={this.saveContact2}
               >SAVE CHANGES</Button>{' '}
               <Button
-                variant="primary"
+                variant="outline-danger"
                 onClick={
                   () => { this.props.onSubmit(this.state.newEvent); history.push('/FullCalendar') }
                 }

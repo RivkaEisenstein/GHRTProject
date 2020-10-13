@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Switch, Route , Link } from 'react-router-dom';
+import { Switch, Route, Link } from 'react-router-dom';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
@@ -25,7 +25,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import calendar from '../../images/calendar.png';
 import './style.scss';
-import   { Update , Updatek }   from './actions';
+import { Update, Updatek } from './actions';
 
 
 import { getFilterEvents } from '../App/selectors';
@@ -39,7 +39,7 @@ import { Kinds } from './constants';
 
 
 export function AppNavbar(props) {
- 
+
   useInjectReducer({ key: 'navbar', reducer });
   useInjectSaga({ key: 'navbar', saga });
   const [date, setDate] = React.useState(new Date());
@@ -50,56 +50,66 @@ export function AppNavbar(props) {
       </Helmet>
 
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home" variant="red">
+        <Navbar.Brand href="#home" variant="red" className="navbar">
           <img
             alt=""
             src={calendar}
-            width="34"
+            width="49"
             height="34"
             className="d-inline-block align-top"
           />{' '}
       --CALENDAR--
+          <br></br>
+          <Breadcrumbs aria-label="breadcrumb" >
+            <AddCircleOutlineIcon style={{fill: "gray"}}/>
+            <Link color="white" to="/AddEvent" className="link">Add Event</Link>{'  '}
+            <DashboardIcon  style={{fill: "gray"}}/>
+            <Link color="white" to="/Dashboard" className="link">Dashboard</Link>{'   '}
+            <EventIcon  style={{fill: "gray"}}/>
+            <Link color="white" to="/FullCalendar" className="link">Calendar</Link>{' '}
+          </Breadcrumbs>
+
+
+
         </Navbar.Brand>
         <Form inline className="navbar_form_style">
           <input
-            type="date" 
-            value={date} 
-            onChange={(e) => { 
+            type="date"
+            value={date}
+            className="input_date"
+            onChange={(e) => {
               setDate(e.target.value);
-              props.onUpdate(e.target.value)}}
+              props.onUpdate(e.target.value)
+            }}
           />
-          
-          <Button variant="danger">Clear Date   </Button>
+
+          <Button
+            variant="danger"
+            onClick={() => {
+              setDate("null");
+              props.onUpdate("null")
+            }}>Clear Date   </Button>{' '}
           <Form.Control
             as="select"
             custom
-            onChange={(e)=>{props.onUpdatek(e.target.value)}}
+            onChange={(e) => { props.onUpdatek(e.target.value) }}
             variant="danger"
           >
-            { Kinds.map(kind => 
+            {Kinds.map(kind =>
               <option value={kind}> {kind} </option>
             )}
-            
-        
+
+
           </Form.Control>
         </Form>
 
       </Navbar>
 
-      <Breadcrumbs aria-label="breadcrumb" >
-        <AddCircleOutlineIcon />
-        <Link color="inherit" to="/AddEvent">Add Event</Link>
-        <DashboardIcon />
-        <Link color="inherit" to="/Dashboard">Dashboard</Link>
-        <EventIcon />
-        <Link color="inherit" to="/FullCalendar">Calendar</Link>
 
 
-
-      </Breadcrumbs >
       <Switch>
 
-    
+
         <Route exact path="/Dashboard" component={Dashboard} />
         <Route exact path="/FullCalendar" component={Calendar} />
         <Route path="/AddEvent" component={AddEvent} />
@@ -115,8 +125,8 @@ export function AppNavbar(props) {
 
 AppNavbar.propTypes = {
   events: PropTypes.array,
-  onUpdate:PropTypes.func,
-  onUpdatek:PropTypes.func
+  onUpdate: PropTypes.func,
+  onUpdatek: PropTypes.func
 
 };
 
@@ -127,8 +137,8 @@ const mapStateToProps = createStructuredSelector({
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdate: evt=>  dispatch(Update(evt)) ,
-    onUpdatek: kind =>  dispatch(Updatek(kind)) ,
+    onUpdate: evt => dispatch(Update(evt)),
+    onUpdatek: kind => dispatch(Updatek(kind)),
   }
 
 }
