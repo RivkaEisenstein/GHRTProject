@@ -15,7 +15,7 @@ import { useInjectReducer } from 'utils/injectReducer';
 import { FormattedMessage } from 'react-intl';
 import reducer from './reducer';
 import saga from './saga';
-import { getFilterDashboardEvents ,getKindd } from '../App/selectors';
+import { getFilterDashboardEvents ,getCurrentKind } from '../App/selectors';
 import './style.scss';
 import messages from './messages';
 import { useKindEvent } from '../UseKindEvent';
@@ -36,9 +36,7 @@ export function Dashboard(props) {
       <span className="format_message">
         <FormattedMessage {...messages.header} className="format_message" />
       </span>
-      <br></br>
-      <br></br>
-      <br></br>
+
       <div className="dashboard_graph">
         <ComposedChart width={width} height={height} data={props.dashboardEvents}>
           <XAxis dataKey="name" />
@@ -61,12 +59,9 @@ Dashboard.propTypes = {
 };
 
 
-
-
-
 const mapStateToProps = createStructuredSelector({
   dashboardEvents: getFilterDashboardEvents(),
-  kind : getKindd()
+  kind : getCurrentKind()
 });
 
 function mapDispatchToProps(dispatch) {

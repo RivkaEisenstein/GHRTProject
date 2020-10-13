@@ -4,10 +4,9 @@
  *
  */
 
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Switch, Route, Link } from 'react-router-dom';
@@ -25,7 +24,7 @@ import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import calendar from '../../images/calendar.png';
 import './style.scss';
-import { Update, Updatek } from './actions';
+import { UpdateDate, Updatekind } from './actions';
 
 
 import { getFilterEvents } from '../App/selectors';
@@ -39,21 +38,16 @@ import { Kinds } from './constants';
 
 
 
-export function AppNavbar(props) {
+export function AppNavbar({onUpdateDate,onUpdatekind}) {
 
   useInjectReducer({ key: 'navbar', reducer });
   useInjectSaga({ key: 'navbar', saga });
-  const [date, setDate] = React.useState(new Date());
-  
-
+  const [date, setDate] = useState(new Date());
+  const { Brand } = Navbar;
   return (
     <div className="navbar_container">
-      <Helmet>
-
-      </Helmet>
-
       <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home" variant="red" className="navbar">
+        <Brand href="#home" variant="red" className="navbar">
           <img
             alt=""
             src={calendar}
@@ -71,10 +65,7 @@ export function AppNavbar(props) {
             <EventIcon  style={{fill: "gray"}}/>
             <Link color="white" to="/FullCalendar" className="link">Calendar</Link>{' '}
           </Breadcrumbs>
-
-
-
-        </Navbar.Brand>
+        </Brand>
         <Form inline className="navbar_form_style">
           <input
             type="date"
@@ -82,20 +73,20 @@ export function AppNavbar(props) {
             className="input_date"
             onChange={(e) => {
               setDate(e.target.value);
-              props.onUpdate(e.target.value)
+              onUpdateDate(e.target.value)
             }}
           />{'  '}
 
           <Button
             variant="danger"
             onClick={() => {
-              setDate("null");
-              props.onUpdate("null")
+              setDate(new Date());
+              onUpdateDate("null")
             }}>Clear Date   </Button>{'  '}
           <Form.Control
             as="select"
             custom
-            onChange={(e) => { props.onUpdatek(e.target.value) }}
+            onChange={(e) => { onUpdatekind(e.target.value) }}
             variant="danger"
           >
             {Kinds.map(kind =>
@@ -111,15 +102,11 @@ export function AppNavbar(props) {
 
 
       <Switch>
-
-
         <Route exact path="/Dashboard" component={Dashboard} />
         <Route exact path="/FullCalendar" component={Calendar} />
         <Route path="/AddEvent" component={AddEvent} />
         <Route path="/EditEvent" component={EditEvent} />
         <Route path="/" component={Calendar} />
-
-
       </Switch>
 
     </div>
@@ -128,20 +115,21 @@ export function AppNavbar(props) {
 
 AppNavbar.propTypes = {
   events: PropTypes.array,
-  onUpdate: PropTypes.func,
-  onUpdatek: PropTypes.func
+  onUpdateDate: PropTypes.func,
+  onUpdatekind: PropTypes.func
 
 };
 
 const mapStateToProps = createStructuredSelector({
-  events: getFilterEvents()
+  events: getFilterEvents(),
+  
 });
 
 
 function mapDispatchToProps(dispatch) {
   return {
-    onUpdate: evt => dispatch(Update(evt)),
-    onUpdatek: kind => dispatch(Updatek(kind)),
+    onUpdateDate: evt => dispatch(UpdateDate(evt)),
+    onUpdatekind: kind => dispatch(Updatekind(kind)),
   }
 
 }

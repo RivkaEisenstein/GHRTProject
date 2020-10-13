@@ -42,10 +42,10 @@ const appReducer = (state = initialState, action) =>
       case ADD_EVENT_SUCCESS:
         draft.id += 1;
         draft.events = action.events;
-        const i = draft.dashboardevents.findIndex((eventd) =>
-          eventd.name === action.event.kind
-        );
-        draft.dashboardevents[i].count += 1;
+        draft.dashboardevents.find((eventDashboard) =>
+          eventDashboard.name === action.event.kind
+        ).count+=1;
+        //draft.dashboardevents[index].count += 1;
       
 
         break;
@@ -78,6 +78,7 @@ const appReducer = (state = initialState, action) =>
         console.log( "draft events" ,draft.events);
         draft.id=action.events.length;
         draft.loading = false;
+        draft.error =false;
         break;
 
       case GET_EVENT:

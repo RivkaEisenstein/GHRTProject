@@ -10,7 +10,7 @@
 import { compose } from 'redux';
 
 
-import React, { memo, Component } from 'react';
+import React, { memo } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -18,37 +18,19 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import "react-datepicker/dist/react-datepicker.css";
 import './style.scss';
-import { Helmet } from 'react-helmet';
-import  AppNavbar  from '../Navbar';
+import AppNavbar from '../Navbar';
 import { getFilterEvents } from './selectors';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
-export class App extends Component {
+export function App() {
+  return (
+    <div>
 
-  constructor(props) {
-    super(props);
-    this.date = new Date();
-    this.kind = '';
-    this.options = [
-      { value: 'wedding', label: 'wedding' },
-      { value: 'birthday', label: 'birthday' },
-      { value: 'meeting', label: 'meeting' },
-    ]
-   
-  }
-
-
-  render() {
-    return (
-      <div>
-        <Helmet>
-        </Helmet>
-        <AppNavbar></AppNavbar>
-      </div>
-    );
-  }
+      <AppNavbar></AppNavbar>
+    </div>
+  )
 }
 
 

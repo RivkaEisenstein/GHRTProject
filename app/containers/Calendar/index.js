@@ -1,8 +1,3 @@
-/**
- *
- * Calendar
- *
- */
 
 import React, { memo, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -15,30 +10,25 @@ import FullCalendar from "@fullcalendar/react";
 
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid';
-
-// import interactionPlugin from '@fullcalendar/interaction';
-
-
-// import messages from './messages';
 import history from 'utils/history';
 import { useInjectSaga } from 'utils/injectSaga';
-import { getFilterEvents , getKindd } from '../App/selectors';
+import { getFilterEvents , getCurrentKind } from '../App/selectors';
 import { UpdateEdit } from './actions';
 import { loadEvents } from '../App/actions';
 import saga from '../App/saga';
 import './style.scss';
 import { useKindEvent } from '../UseKindEvent';
-// import 'fullcalendar/dist/fullcalendar.css';
 
 
-export function Calendar(props) {
+
+export function Calendar( {events,onUpdateEdit,onLoadEvents, kind}){
   useInjectSaga({ key: 'Calendar', saga });
   useEffect(() => {
-    if (!props.events) props.onLoadEvents();
+    if (!events) onLoadEvents();
   }, []);
   const height = 600;
   const width = 600;
-  const color = useKindEvent(props.kind);
+  const color = useKindEvent(kind);
 
   return (
     <div className="calendar_container">
@@ -48,7 +38,7 @@ export function Calendar(props) {
         color="black"
         eventTextColor="balck"
         plugins={[dayGridPlugin , timeGridPlugin ]}
-        events={props.events}
+        events={events}
         initialView="dayGridMonth"
         header={{
           left: 'prev,next today',
@@ -58,7 +48,7 @@ export function Calendar(props) {
         eventColor={color}
    
         eventClick={
-          (arg) => { props.onUpdateEdit(arg.event); history.push('/EditEvent'); }
+          (arg) => { onUpdateEdit(arg.event); history.push('/EditEvent'); }
         } />
 
 
@@ -81,7 +71,7 @@ Calendar.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   events: getFilterEvents(),
-  kind : getKindd()
+  kind : getCurrentKind()
 });
 
 function mapDispatchToProps(dispatch) {
