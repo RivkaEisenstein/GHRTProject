@@ -15,9 +15,10 @@ import { useInjectReducer } from 'utils/injectReducer';
 import { FormattedMessage } from 'react-intl';
 import reducer from './reducer';
 import saga from './saga';
-import { getFilterDashboardEvents } from '../App/selectors';
+import { getFilterDashboardEvents ,getKindd } from '../App/selectors';
 import './style.scss';
 import messages from './messages';
+import { useKindEvent } from '../UseKindEvent';
 
 export function Dashboard(props) {
   useInjectReducer({ key: 'dashboard', reducer });
@@ -27,8 +28,8 @@ export function Dashboard(props) {
   const colorArea = "#f5f5f5";
   const fillArea = "#8884d8";
   const strokeArea = "#8884d8";
-  const fillBar = "#413ea0";
-  const strokeLine = "#ff7300";
+  const fillBar = useKindEvent(props.kind);
+  const strokeLine = "#FF0000";
   const barSize = 20;
   return (
     <div className="dashbord-container">
@@ -56,6 +57,7 @@ export function Dashboard(props) {
 
 Dashboard.propTypes = {
   dashboardEvents: PropTypes.any,
+  kind:PropTypes.string
 };
 
 
@@ -64,6 +66,7 @@ Dashboard.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   dashboardEvents: getFilterDashboardEvents(),
+  kind : getKindd()
 });
 
 function mapDispatchToProps(dispatch) {

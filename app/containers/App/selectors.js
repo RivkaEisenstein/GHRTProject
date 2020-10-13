@@ -21,6 +21,12 @@ export const getId = () =>
     globalState => globalState.id,
   );
 
+export const getKindd = () =>
+  createSelector(
+    selectGlobal,
+    globalState => globalState.kind,
+  );
+
 
 export const getFilterDashboardEvents = () => createSelector(
   getKind, getDate, getDashboardEvents, getEvents,
@@ -36,7 +42,7 @@ export const getFilterDashboardEvents = () => createSelector(
       for (let index = 0; index < length; index += 1) {
         const countEvents = events.filter((event) =>
           event.date === date && event.kind === dashboardevents[index].name).length;
-        
+
         dashEvents[index].count = countEvents;
       }
       if (kind === "allkinds")
@@ -51,11 +57,10 @@ export const getFilterDashboardEvents = () => createSelector(
 export const getFilterEvents = () => createSelector(
   getKind, getDate, getEvents,
   (kind, date, events) => {
-    if (kind === "allkinds" && date === "null")
-    {
+    if (kind === "allkinds" && date === "null") {
       return events;
     }
- 
+
     if (kind !== "allkinds") {
       return events.filter((event) => (event.kind === kind));
     }

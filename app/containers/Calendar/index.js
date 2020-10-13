@@ -22,11 +22,12 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 // import messages from './messages';
 import history from 'utils/history';
 import { useInjectSaga } from 'utils/injectSaga';
-import { getFilterEvents } from '../App/selectors';
+import { getFilterEvents , getKindd } from '../App/selectors';
 import { UpdateEdit } from './actions';
 import { loadEvents } from '../App/actions';
 import saga from '../App/saga';
 import './style.scss';
+import { useKindEvent } from '../UseKindEvent';
 // import 'fullcalendar/dist/fullcalendar.css';
 
 
@@ -37,7 +38,7 @@ export function Calendar(props) {
   }, []);
   const height = 600;
   const width = 600;
-
+  const color = useKindEvent(props.kind);
 
   return (
     <div className="calendar_container">
@@ -54,6 +55,7 @@ export function Calendar(props) {
           center: 'title, myCustomButton',
           right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
         }}
+        eventColor={color}
    
         eventClick={
           (arg) => { props.onUpdateEdit(arg.event); history.push('/EditEvent'); }
@@ -74,11 +76,12 @@ Calendar.propTypes = {
   onUpdateEdit: PropTypes.func,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   onLoadEvents: PropTypes.func,
+  kind:PropTypes.string
 };
 
 const mapStateToProps = createStructuredSelector({
-  events: getFilterEvents()
-
+  events: getFilterEvents(),
+  kind : getKindd()
 });
 
 function mapDispatchToProps(dispatch) {

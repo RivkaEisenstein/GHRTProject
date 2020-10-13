@@ -38,11 +38,14 @@ import Dashboard from '../Dashboard';
 import { Kinds } from './constants';
 
 
+
 export function AppNavbar(props) {
 
   useInjectReducer({ key: 'navbar', reducer });
   useInjectSaga({ key: 'navbar', saga });
   const [date, setDate] = React.useState(new Date());
+  
+
   return (
     <div className="navbar_container">
       <Helmet>
@@ -81,14 +84,14 @@ export function AppNavbar(props) {
               setDate(e.target.value);
               props.onUpdate(e.target.value)
             }}
-          />
+          />{'  '}
 
           <Button
             variant="danger"
             onClick={() => {
               setDate("null");
               props.onUpdate("null")
-            }}>Clear Date   </Button>{' '}
+            }}>Clear Date   </Button>{'  '}
           <Form.Control
             as="select"
             custom
@@ -97,7 +100,7 @@ export function AppNavbar(props) {
           >
             {Kinds.map(kind =>
               <option value={kind}> {kind} </option>
-            )}
+            )}{'  '}
 
 
           </Form.Control>
