@@ -73,16 +73,16 @@ export function AppNavbar({onUpdateDate,onUpdatekind}) {
             className="input_date"
             onChange={(e) => {
               setDate(e.target.value);
-              onUpdateDate(e.target.value)
+              onUpdateDate(e.target.value);
             }}
-          />{'  '}
+          />
 
           <Button
             variant="danger"
             onClick={() => {
               setDate(new Date());
               onUpdateDate("null")
-            }}>Clear Date   </Button>{'  '}
+            }}>Clear Date   </Button>
           <Form.Control
             as="select"
             custom

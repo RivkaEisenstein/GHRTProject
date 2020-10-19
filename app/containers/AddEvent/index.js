@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 
+
 import './style.scss';
 import history from 'utils/history';
 import { Switch, Route } from 'react-router-dom';
@@ -27,10 +28,8 @@ export class AddEvent extends Component {
     {
       currentKind: 'weeding',
       newEvent: { title: "yyyy", date: new Date(), time: '', kind: '', id: '' },
-      titleText:'aaa',
-      placeholderText:'aaa'
-
-
+      titleText: 'Weeding',
+      placeholderText: 'weeding'
     }
     this.FirstRef = React.createRef();
     this.LastRef = React.createRef();
@@ -38,7 +37,8 @@ export class AddEvent extends Component {
     this.DatetRef = React.createRef();
     this.TimeRef = React.createRef();
     this.saveContact = this.saveContact.bind(this);
-    
+
+
   }
 
 
@@ -58,26 +58,7 @@ export class AddEvent extends Component {
     const { onSubmit } = this.props;
     const { newEvent } = this.state;
 
-    const getAddEventForm = (kind) => {
-      console.log(kind);
-      this.state.currentKind = kind;
-   
-      switch (kind) {
-        case "birthday":
-          this.state.titleText= "birthday";
-          this.state.placeholderText ="birthday";
-
-          break;
-        case "meeting":
-          this.state.titleText= "meeting";
-          this.state.placeholderText ="meeting";
-          break;
-        case "weeding":
-          this.state.titleText= "weeding";
-          this.state.placeholderText ="weeding";
-          break;
-        default: break;
-      }
+    const getAddEventForm = () => {
       return (<div className="form_birthday">
         <Form width={200} height={300}>
           <h3>{this.state.titleText}</h3>
@@ -87,7 +68,7 @@ export class AddEvent extends Component {
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Date Event</Form.Label>
-            <Form.Control type="date"  ref={this.DatetRef} name="date" />
+            <Form.Control type="date" ref={this.DatetRef} name="date" />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Time Event</Form.Label>
@@ -96,7 +77,7 @@ export class AddEvent extends Component {
 
           <Button
             variant="outline-danger"
-            onClick={()=>{this.saveContact()}}
+            onClick={() => { this.saveContact() }}
           >SAVE CHANGES</Button>{' '}
           <Button
             variant="outline-danger"
@@ -109,36 +90,38 @@ export class AddEvent extends Component {
     };
 
     return (
-      <div className="add_event_container">
-        <Switch>
-          <Route exact path="/FullCalendar" component={Calendar} />
-        </Switch>
+      <>
+        <div className="add_event_container">
+          <Switch>
+            <Route exact path="/FullCalendar" component={Calendar} />
+          </Switch>
 
-        <div className="add_event_h1">
-          <h3 >ADD EVENTS</h3>
-          <div className="div_kind">
-            <p className="p_kind">choose kind of event </p>
+          <div className="add_event_h1">
+            <h3 >ADD EVENTS</h3>
+            <div className="div_kind">
+              <p className="p_kind">choose kind of event </p>
 
-            <Form.Control
-              className="form_control"
-              as="select"
-              custom
-              variant="danger"
-              onChange={(e) => { getAddEventForm(e.target.value); this.state.currentKind = e.target.value }}
-            >
-              <option value="weeding">Wedding</option>
-              <option value="meeting">Meeting</option>
-              <option value="birthday">Birthday</option>
+              <Form.Control
+                className="form_control"
+                as="select"
+                custom
+                variant="danger"
+                onChange={(e) => { this.setState({ titleText: e.target.value, placeholderText: e.target.value ,currentKind: e.target.value });  }}
+              >
+                <option value="weeding">Wedding</option>
+                <option value="meeting">Meeting</option>
+                <option value="birthday">Birthday</option>
 
-            </Form.Control>
+              </Form.Control>
+            </div>
           </div>
-        </div>
 
-        <div className="add_events">
-          {getAddEventForm("weeding")}
+          <div className="add_events">
+            {getAddEventForm()}
 
-        </div>
-      </div >
+          </div>
+        </div >
+      </>
 
     );
   }

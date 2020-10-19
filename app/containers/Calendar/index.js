@@ -1,5 +1,5 @@
 
-import React, { memo, useEffect } from 'react';
+import React, { memo, useEffect ,useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -12,7 +12,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid';
 import history from 'utils/history';
 import { useInjectSaga } from 'utils/injectSaga';
-import { getFilterEvents , getCurrentKind } from '../App/selectors';
+import { getFilterEvents, getCurrentKind } from '../App/selectors';
 import { UpdateEdit } from './actions';
 import { loadEvents } from '../App/actions';
 import saga from '../App/saga';
@@ -21,11 +21,13 @@ import { useKindEvent } from '../UseKindEvent';
 
 
 
-export function Calendar( {events,onUpdateEdit,onLoadEvents, kind}){
+
+export function Calendar({ events, onUpdateEdit, onLoadEvents, kind }) {
   useInjectSaga({ key: 'Calendar', saga });
   useEffect(() => {
     if (!events) onLoadEvents();
   }, []);
+  const [initialView, setinitialView] = useState("dayGridMonth");
   const height = 600;
   const width = 600;
   const color = useKindEvent(kind);
@@ -37,16 +39,17 @@ export function Calendar( {events,onUpdateEdit,onLoadEvents, kind}){
         width={width}
         color="black"
         eventTextColor="balck"
-        plugins={[dayGridPlugin , timeGridPlugin ]}
+        plugins={[dayGridPlugin, timeGridPlugin]}
+        dateClick={() =>{setinitialView("timeGridDay");alert("hello")}}
         events={events}
-        initialView="dayGridMonth"
-        header={{
-          left: 'prev,next today',
-          center: 'title, myCustomButton',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
+        initialView={initialView}
+        headerToolbar={{
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
         }}
         eventColor={color}
-   
+        // eventContent={renderEventContent}
         eventClick={
           (arg) => { onUpdateEdit(arg.event); history.push('/EditEvent'); }
         } />
@@ -56,6 +59,14 @@ export function Calendar( {events,onUpdateEdit,onLoadEvents, kind}){
   );
 
 }
+// function renderEventContent(eventInfo) {
+//   return (
+//     <>
+//     <p>{eventInfo.event.title}</p>
+//     <p>click to change details</p>
+//     </>
+//   )
+// }
 
 
 
@@ -66,12 +77,12 @@ Calendar.propTypes = {
   onUpdateEdit: PropTypes.func,
   error: PropTypes.oneOfType([PropTypes.object, PropTypes.bool]),
   onLoadEvents: PropTypes.func,
-  kind:PropTypes.string
+  kind: PropTypes.string
 };
 
 const mapStateToProps = createStructuredSelector({
   events: getFilterEvents(),
-  kind : getCurrentKind()
+  kind: getCurrentKind()
 });
 
 function mapDispatchToProps(dispatch) {

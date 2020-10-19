@@ -7,7 +7,7 @@
 import { UPDATE_DATE ,UPDATE_KIND } from './constants';
 
 
-export function UpdatDate(ob) {
+export function UpdateDate(ob) {
   return {
     type: UPDATE_DATE,
     ob

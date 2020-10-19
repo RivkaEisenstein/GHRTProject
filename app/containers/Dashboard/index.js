@@ -21,6 +21,7 @@ import messages from './messages';
 import { useKindEvent } from '../UseKindEvent';
 
 export function Dashboard(props) {
+  console.log(props.dashboardEvents);
   useInjectReducer({ key: 'dashboard', reducer });
   useInjectSaga({ key: 'dashboard', saga });
   const width = 900;
@@ -32,6 +33,7 @@ export function Dashboard(props) {
   const strokeLine = "#FF0000";
   const barSize = 20;
   return (
+  
     <div className="dashbord-container">
       <span className="format_message">
         <FormattedMessage {...messages.header} className="format_message" />

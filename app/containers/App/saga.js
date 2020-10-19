@@ -58,6 +58,7 @@ export function* update(action) {
 
   try {
     const list = yield call(request, requestURL, options);
+    alert("i come here");
     yield put(updateEventSuccess(action.event, list));
   } catch (err) {
     yield put(updateEventError(err));
@@ -65,7 +66,7 @@ export function* update(action) {
 }
 
 export function* add(action) {
-  alert("i come here aaaaaaaaaa");
+
   const requestURL = `${baseUrl}/add`;
   const options = {
     method: 'POST',
@@ -77,7 +78,7 @@ export function* add(action) {
 
   try {
     const list = yield call(request, requestURL, options);
-    alert("i come here");
+  
     yield put(addEventSuccess(action.event, list));
   } catch (err) {
     yield put(addEventError(err));

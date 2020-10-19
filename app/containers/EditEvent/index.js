@@ -22,10 +22,11 @@ import './style.scss';
 import { Edit } from './actions';
 
 
-export function EditEvent(onEdit,eventedit) {
+export function EditEvent({ onEdit, eventedit }) {
+
   useInjectReducer({ key: 'editEvent', reducer });
   const [title, setTitle] = React.useState("");
-  const [date, setDate] = React.useState(eventedit.date);
+  const [date, setDate] = React.useState(eventedit.start);
   const [time, setTime] = React.useState("");
 
   return (
@@ -34,18 +35,18 @@ export function EditEvent(onEdit,eventedit) {
         <Form width={300} height={500} margin-top={20}>
           <h2 className="h2">---Edit  Event--- </h2>
           <Form.Group controlId="exampleForm.ControlInput1" >
-            <Form.Label>Title Event</Form.Label>
+            <Form.Label>Title Event : {eventedit.title}</Form.Label>
             <Form.Control type="string" placeholder={eventedit.title} value={title} onChange={(e) => setTitle(e.target.value)} />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
-            <Form.Label>Date Event</Form.Label>
+            <Form.Label>Date Event : {eventedit.start.toLocaleString()}</Form.Label>
             <Form.Control type="date" value={date} onChange={(e) => setDate(e.target.value)} />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlInput2">
-            <Form.Label>Time Event</Form.Label>
+            <Form.Label>Time Event </Form.Label>
             <Form.Control type="time" value={time} onChange={(e) => setTime(e.target.value)} />
           </Form.Group>
-          <Button 
+          <Button
             variant="outline-danger"
             onClick={() => {
               onEdit({ title, date, time, kind: eventedit.kind, id: eventedit.id })

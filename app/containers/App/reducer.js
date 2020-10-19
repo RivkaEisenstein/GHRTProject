@@ -21,9 +21,9 @@ import {
 
 // The initial state of the App
 export const initialState = {
-  events:false,
+  events: false,
   date: "null",
-  kind: 'allkinds',
+  kind: "allkinds",
   eventedit: { name: 'hello' },
   id: 0,
   dashboardevents: [
@@ -44,9 +44,8 @@ const appReducer = (state = initialState, action) =>
         draft.events = action.events;
         draft.dashboardevents.find((eventDashboard) =>
           eventDashboard.name === action.event.kind
-        ).count+=1;
-        //draft.dashboardevents[index].count += 1;
-      
+        ).count += 1;
+
 
         break;
 
@@ -72,13 +71,22 @@ const appReducer = (state = initialState, action) =>
         break;
 
       case LOAD_EVENT_SUCCESS:
-        
+
         console.log(action.events);
         draft.events = action.events;
-        console.log( "draft events" ,draft.events);
-        draft.id=action.events.length;
+        console.log("draft events", draft.events);
+        draft.id = action.events.length;
         draft.loading = false;
-        draft.error =false;
+        draft.error = false;
+        draft.dashboardevents[0].count = draft.events.filter((event) =>
+          event.kind === draft.dashboardevents[0].name
+        ).length;
+        draft.dashboardevents[1].count = draft.events.filter((event) =>
+          event.kind === draft.dashboardevents[1].name
+        ).length;
+        draft.dashboardevents[2].count = draft.events.filter((event) =>
+          event.kind === draft.dashboardevents[2].name
+        ).length;
         break;
 
       case GET_EVENT:
